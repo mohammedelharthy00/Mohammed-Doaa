@@ -156,6 +156,7 @@ const lightbox = GLightbox({
 
   });
 
+
 // ====== PASSWORD ======
 const PASSWORD = "010964010";
 
@@ -171,7 +172,6 @@ window.checkPassword = function () {
   if (pass === PASSWORD) {
     document.getElementById("imageInput").style.display = "block";
     document.getElementById("uploadPassword").disabled = true;
-    localStorage.setItem("uploadUnlocked", "true");
   } else {
     alert("Wrong password ❌");
   }
@@ -199,8 +199,8 @@ function loadImages() {
       <div class="portfolio-content h-100">
         <img src="${src}" class="img-fluid">
         <div class="portfolio-info">
-          <h4>Habib Ayami</h4>
-          <p>Forever yours, in every way</p>
+          <h4>Saved Image</h4>
+          <p>Persistent</p>
           <a href="${src}" class="glightbox preview-link">
             <i class="bi bi-zoom-in"></i>
           </a>
@@ -220,13 +220,6 @@ function loadImages() {
 
 // ====== ON LOAD ======
 window.addEventListener("load", function () {
-  // لو الباسورد كان متفعل قبل كده
-  if (localStorage.getItem("uploadUnlocked") === "true") {
-    document.getElementById("uploadBox").style.display = "block";
-    document.getElementById("imageInput").style.display = "block";
-    document.getElementById("uploadPassword").disabled = true;
-  }
-
   loadImages();
 
   const imageInput = document.getElementById("imageInput");
@@ -269,5 +262,6 @@ window.addEventListener("load", function () {
     reader.readAsDataURL(file);
   });
 });
+;
 
 })();
