@@ -69,9 +69,6 @@
   window.addEventListener('load', toggleScrollTop);
   document.addEventListener('scroll', toggleScrollTop);
 
-  /**
-   * Animation on scroll function and init
-   */
   function aosInit() {
     AOS.init({
       duration: 600,
@@ -126,16 +123,9 @@
 
   window.addEventListener("load", initSwiper);
 
-  /**
-   * Initiate glightbox
-   */
-  const glightbox = GLightbox({
-    selector: '.glightbox'
-  });
-
-  /**
-   * Init isotope layout and filters
-   */
+const lightbox = GLightbox({
+  selector: '.glightbox'
+});
   document.querySelectorAll('.isotope-layout').forEach(function (isotopeItem) {
     let layout = isotopeItem.getAttribute('data-layout') ?? 'masonry';
     let filter = isotopeItem.getAttribute('data-default-filter') ?? '*';
@@ -165,5 +155,119 @@
     });
 
   });
+
+// ====== PASSWORD ======
+const PASSWORD = "010964010";
+
+// ====== OPEN UPLOAD BOX ======
+window.openUpload = function () {
+  document.getElementById("uploadBox").style.display = "block";
+};
+
+// ====== CHECK PASSWORD ======
+window.checkPassword = function () {
+  const pass = document.getElementById("uploadPassword").value;
+
+  if (pass === PASSWORD) {
+    document.getElementById("imageInput").style.display = "block";
+    document.getElementById("uploadPassword").disabled = true;
+    localStorage.setItem("uploadUnlocked", "true");
+  } else {
+    alert("Wrong password ❌");
+  }
+};
+
+// ====== SAVE IMAGE ======
+function saveImage(src) {
+  let images = JSON.parse(localStorage.getItem("portfolioImages")) || [];
+  images.push(src);
+  localStorage.setItem("portfolioImages", JSON.stringify(images));
+}
+
+// ====== LOAD IMAGES ======
+function loadImages() {
+  const container = document.querySelector(".isotope-container");
+  if (!container) return;
+
+  let images = JSON.parse(localStorage.getItem("portfolioImages")) || [];
+
+  images.forEach(src => {
+    const item = document.createElement("div");
+    item.className = "col-lg-3 col-md-6 portfolio-item isotope-item filter-app";
+
+    item.innerHTML = `
+      <div class="portfolio-content h-100">
+        <img src="${src}" class="img-fluid">
+        <div class="portfolio-info">
+          <h4>Habib Ayami</h4>
+          <p>Forever yours, in every way</p>
+          <a href="${src}" class="glightbox preview-link">
+            <i class="bi bi-zoom-in"></i>
+          </a>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(item);
+  });
+
+  imagesLoaded(container, function () {
+    new Isotope(container);
+  });
+
+  lightbox.reload();
+}
+
+// ====== ON LOAD ======
+window.addEventListener("load", function () {
+  // لو الباسورد كان متفعل قبل كده
+  if (localStorage.getItem("uploadUnlocked") === "true") {
+    document.getElementById("uploadBox").style.display = "block";
+    document.getElementById("imageInput").style.display = "block";
+    document.getElementById("uploadPassword").disabled = true;
+  }
+
+  loadImages();
+
+  const imageInput = document.getElementById("imageInput");
+  if (!imageInput) return;
+
+  imageInput.addEventListener("change", function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const container = document.querySelector(".isotope-container");
+
+      const item = document.createElement("div");
+      item.className = "col-lg-3 col-md-6 portfolio-item isotope-item filter-app";
+
+      item.innerHTML = `
+        <div class="portfolio-content h-100">
+          <img src="${e.target.result}" class="img-fluid">
+          <div class="portfolio-info">
+            <h4>New Image</h4>
+            <p>Added by admin</p>
+            <a href="${e.target.result}" class="glightbox preview-link">
+              <i class="bi bi-zoom-in"></i>
+            </a>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(item);
+      saveImage(e.target.result);
+
+      imagesLoaded(container, function () {
+        new Isotope(container);
+      });
+
+      lightbox.reload();
+    };
+
+    reader.readAsDataURL(file);
+  });
+});
 
 })();
