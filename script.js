@@ -14,7 +14,7 @@ document.getElementById("loginForm").addEventListener("submit", function(e){
 
   const password = document.getElementById("password").value.trim();
   const errorMsg = document.getElementById("passwordError");
-  const correctPassword = "بحبك كلك بس ضحكتك اكتر"; 
+  const correctPassword = "بحبك كلك بس عينك اكتر"; 
 
   if(password === correctPassword){
       errorMsg.textContent = "";
@@ -57,6 +57,7 @@ toggle.addEventListener("click", () => {
     eyeIcon.classList.remove("show-password");
   }
 });
+
 
 
 
