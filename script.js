@@ -6,7 +6,7 @@ const messages = [
   "طب خدي الهنت ده المانجه مالها ؟"
 ];
 
-const lockedMessage = "ايه اكتر اسم بناديلك بيه ؟";
+const lockedMessage = "غيرته وريني بقا هتدخلي ازاي ";
 let tries = 0;
 
 document.getElementById("loginForm").addEventListener("submit", function(e){
@@ -14,7 +14,7 @@ document.getElementById("loginForm").addEventListener("submit", function(e){
 
   const password = document.getElementById("password").value.trim();
   const errorMsg = document.getElementById("passwordError");
-  const correctPassword = "دودتي"; 
+  const correctPassword = "القماصههه"; 
 
   if(password === correctPassword){
       errorMsg.textContent = "";
@@ -57,4 +57,5 @@ toggle.addEventListener("click", () => {
     eyeIcon.classList.remove("show-password");
   }
 });
+
 
